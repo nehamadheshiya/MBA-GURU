@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.sidenav::-webkit-scrollbar {
+    width: 8px; 
+}
+ 
+/* ::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+} */
+
+.navbtn{
+    padding-block: 11px !important;
+}
+.studentdetails{
+    text-align: center !important ;
+}
+.custom-name-column {
+    margin-left: 20%;
+  }
+ 
+  
+ 
