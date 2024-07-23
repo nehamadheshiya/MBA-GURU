@@ -95,7 +95,7 @@ const handleChange = (e) => {
       subject_id: subject_id,
     });
   };
-
+//Delete 
   const handleCloseDelete = () => setIsFormDelete(false);
   const handleDeleteButton=async()=>{
     const valueData=new FormData();
