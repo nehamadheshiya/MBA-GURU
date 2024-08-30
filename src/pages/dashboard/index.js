@@ -5,6 +5,5 @@ export * from "@/pages/dashboard/notifications";
 export * from "@/pages/dashboard/appuserdetails";
 export * from "@/pages/dashboard/material";
 export * from "@/pages/dashboard/initialswot";
-export * from "@/pages/dashboard/backup";
 export * from "@/pages/dashboard/calendar";
 

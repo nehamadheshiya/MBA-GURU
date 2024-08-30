@@ -42,17 +42,17 @@ const AppUserDetail = () => {
     {
       name: 'ADMISSION DATE',
       selector: row => row.admission_date,
-      width:"150px"
+      width:"auto"
     }, 
     {
       name: 'DATE OF BIRTH',
       selector: row => row.dateofbirth,
-      width:"150px"
+      width:"auto"
     }, 
     {
       name: 'ADDRESS',
       selector: row => row.address,
-      width:"150px"
+      width:"130px"
     },  
     {
       name: 'CENTER CODE',
@@ -92,7 +92,7 @@ const AppUserDetail = () => {
  
  
   const {data,handleFilter,records,isFormVisible,handleAddButton,handleClose,handleCloseMore,handleMoreButton,isFormVisibleMore,handleChange,handleClick,formValue,handleEdit,handleDelete,handleCloseEdit,handleCloseDelete,isFormDelete,isFormEdit,handleEditButton,formClose,handleDeleteButton,handleClickEdit,}=AppUserDetailHook()
-  // console.log(records)
+  console.log(formValue.admission_date,"addddtttttt")
   return (
     <div >
        
@@ -130,16 +130,13 @@ const AppUserDetail = () => {
                 autoFocus
               />
             </Form.Group>
-          
           </Form>
         </Modal.Body>
         <Modal.Footer>
-        <button onClick={handleCloseMore} type="button" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-md text-sm px-3 py-2.5 text-center me-2 mb-2">Import Student</button>  
-          <button onClick={handleCloseMore} type="button" class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-md text-sm px-3 py-2.5 text-center me-2 mb-2">Export Student</button>
-              
+          <button onClick={handleCloseMore} type="button" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-md text-sm px-3 py-2.5 text-center me-2 mb-2">Import Student</button>  
+          <button onClick={handleCloseMore} type="button" class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-md text-sm px-3 py-2.5 text-center me-2 mb-2">Export Student</button>     
         </Modal.Footer>
       </Modal>
-
         <Modal size="lg" show={isFormVisible} onHide={handleClose}>
         <Modal.Header closeButton className="d-flex justify-content-center" >
           <Modal.Title className='text-red-900 '>Student Details</Modal.Title>
@@ -258,7 +255,7 @@ const AppUserDetail = () => {
                 autoFocus
               />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            {/* <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Mobile</Form.Label>
               <Form.Control
                 value={formValue.mobile}
@@ -267,7 +264,7 @@ const AppUserDetail = () => {
                 type="text"
                 autoFocus
               />
-            </Form.Group>
+            </Form.Group> */}
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Batch Code</Form.Label>
               <Form.Control

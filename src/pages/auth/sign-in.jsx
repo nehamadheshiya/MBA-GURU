@@ -56,14 +56,14 @@ export function SignIn() {
         <div className="text-center">
           <img
           src="/img/logomba.png"
-          className="h-[75px] w-[160px] ml-[30%] md:ml-[35%] lg:ml-[40%]"
+          className="h-[75px] sm:w-[190px] md:w-[160px] ml-[30%] md:ml-[35%] lg:ml-[40%]"
         />
           {/* <Typography variant="h2" className="font-bold mb-4">Sign In</Typography> */}
           {/* <Typography variant="paragraph" color="blue-gray" className="text-lg font-normal">Enter your email and password to Sign In.</Typography> */}
         </div>
         <form className="mt-8 mb-2 mx-auto w-80 max-w-screen-lg lg:w-1/2">
           <div className="mb-1 flex flex-col gap-6">
-            <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
+            <Typography variant="small" color="blue-gray" className="mb-3 font-medium">
               Your email
             </Typography>
             <Input

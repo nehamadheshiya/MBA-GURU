@@ -3,14 +3,14 @@ import { BASE_URL } from '@/API/Api';
 import {  toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const ViewEditHook = () => {
+const ViewBackUpHook = () => {
   const [data, setData] = useState([]);
   const [from_date, setFromDate] = useState('');
   const [to_date, setToDate] = useState('');
   const [loading, setLoading] = useState(false);
   const [isFormEdit,setIsFormEdit]=useState(false);
   const [isFormDelete,setIsFormDelete]=useState(false);
-  const [records,setRecords]=useState(data);
+
   const [formValue,setFormValue]=useState({
     schedule_id:"",
     class_type:"",
@@ -24,14 +24,14 @@ const ViewEditHook = () => {
     topic:"",
     faculty:"",
     batch_code:"",
-    zoom_id:"",
-    meeting_id:"",
+    no_of_backup_slots:"",
+
   })
 
   const handleDateSubmit = async () => {
     setLoading(true);
     try {
-      const response = await fetch( `${BASE_URL}show-schedule`, {
+      const response = await fetch( `${BASE_URL}show-backup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -47,9 +47,9 @@ const ViewEditHook = () => {
 
       if (result && result.status) {
         setData(result.date);
-        console.log(data,"dnnnnnnuuuppp")
       } else {
         console.error('Failed to fetch data:', result.message);
+
       }
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -63,7 +63,7 @@ const ViewEditHook = () => {
   const isValidInput = () => {
     return from_date && to_date && from_date <= to_date;
   };
-  const handleEdit=(schedule_id,class_type,start_time,end_time,center,date,day,batch_code,skill,topic,faculty,zoom_id,meeting_id)=>{
+  const handleEdit=(schedule_id,class_type,start_time,end_time,center,date,day,batch_code,skill,topic,faculty,no_of_backup_slots)=>{
     setIsFormEdit(true)
     setFormValue({
       schedule_id:schedule_id,
@@ -77,8 +77,7 @@ const ViewEditHook = () => {
       skill:skill,
       topic:topic,
       faculty:faculty,
-      zoom_id:zoom_id,
-      meeting_id:meeting_id,
+      no_of_backup_slots:  no_of_backup_slots,
     })
   }
   const handleChange=(e)=>{
@@ -113,11 +112,9 @@ const ViewEditHook = () => {
     valueData.append("skill", formValue.skill);
     valueData.append("topic", formValue.topic);
     valueData.append("faculty", formValue.faculty);
-    valueData.append("zoom_id", formValue.zoom_id);
-    valueData.append("meeting_id", formValue.meeting_id);
-  
+    valueData.append("no_of_backup_slots", formValue.no_of_backup_slots);
     try {
-      const response = await fetch(`${BASE_URL}edit-schedule`, {
+      const response = await fetch(`${BASE_URL}edit-backup`, {
         method: "POST",
         body: valueData,
       });
@@ -139,7 +136,8 @@ const ViewEditHook = () => {
             topic: formValue.topic,
             faculty: formValue.faculty,
             zoom_id: formValue.zoom_id,
-            meeting_id: formValue.meeting_id
+            meeting_id: formValue.meeting_id,
+            no_of_backup_slots:formValue.no_of_backup_slots,
           } : item
         ));
         handleCloseEdit();
@@ -155,8 +153,7 @@ const ViewEditHook = () => {
           skill: "",
           topic: "",
           faculty: "",
-          zoom_id: "",
-          meeting_id: "",
+          no_of_backup_slots:"",
         });
         toast.success(result.message);
         handleDateSubmit();
@@ -176,7 +173,7 @@ const ViewEditHook = () => {
     valueData.append("schedule_id",formValue.schedule_id);
     // console.log(valueData,'value')
     try{
-    const response=await fetch(`${BASE_URL}delete-schedule`,
+    const response=await fetch(`${BASE_URL}delete-backup`,
     {
       method: "POST",
       body: valueData,
@@ -197,8 +194,6 @@ const ViewEditHook = () => {
       skill:"",
       topic:"",
       faculty:"",
-      zoom_id:"",
-      meeting_id:"",
     });
   
       toast.success(data.message);
@@ -209,24 +204,6 @@ const ViewEditHook = () => {
     console.error("Error", error);
   }  
   }
-  useEffect(() => {
-    setRecords(data);
-  }, [data]);
-
-  // Inside your ViewEditHook or wherever your logic resides
-  const handleFilter = (event) => {
-    const searchValue = event.target.value.toLowerCase();
-    const filteredData = data.filter((item) => {
-      return (
-        item.batch_code.toLowerCase().includes(searchValue) ||
-        item.topic.toLowerCase().includes(searchValue) ||
-        item.faculty.toLowerCase().includes(searchValue)
-      );
-    });
-    setRecords(filteredData);
-  };
-  
-
   
   return {
     handleDateSubmit,
@@ -247,9 +224,7 @@ const ViewEditHook = () => {
     handleCloseDelete,
     isFormDelete,
     handleDeleteButton,
-    handleFilter,
-    records,
   };
 };
 
-export default ViewEditHook;
+export default ViewBackUpHook;

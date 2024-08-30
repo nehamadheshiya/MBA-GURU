@@ -12,12 +12,12 @@ const InitialSwot = () => {
     {
       name: 'ID',
       selector: row => row.id,
-      width: "50px",
+      width: "100px",
     },
     {
       name: 'NAME',
       selector: row => row.name,
-      width: "120px",
+      width: "160px",
     },
     {
       name: 'ENGLISH',
@@ -101,6 +101,7 @@ const InitialSwot = () => {
     advancedModule,
     setBasicModule,
     setAdvancedModule,
+    downloadCSV,
   } = InitialSwotHook();
 console.log(batchYears,"vvvvvvvvv")
   return (
@@ -112,7 +113,7 @@ console.log(batchYears,"vvvvvvvvv")
           <select value={batchCode} onChange={handlebatchChange} id="batchcode" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full md:w-[200px] p-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
             <option selected>Select Batch Code</option>
             {batchYears.batch_code
-              .filter(batchItem => batchItem !== null) 
+              .filter(batchItem => batchItem !== null && batchItem !=="null`") 
               .map((batchItem) => (
                 <option key={batchItem} value={batchItem}>{batchItem}</option>
             ))}
@@ -125,16 +126,24 @@ console.log(batchYears,"vvvvvvvvv")
         <label for="year" class="block mb-2 text-sm font-sm text-gray-900 dark:text-white">Select Year</label>
           <select value={year} onChange={handleYearChange} id="year" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full md:w-[200px] p-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
             <option selected>Select Year</option>
-           
-            {batchYears.year.map((yearItem) => (
-              <option key={yearItem} value={yearItem}>{yearItem}</option>
-            ))}
+            {
+            batchYears.year
+              .filter(yearItem => yearItem !== null && yearItem !== undefined && yearItem !== "null" && yearItem !== "undefined")
+              .map((yearItem) => (
+                <option key={yearItem} value={yearItem}>
+                  {yearItem}
+                </option>
+              ))
+            }
           </select>
         </form>
       </div> 
 
       <div className='mx-2 md:mx-4 pt-7'>
         <button onClick={handleSubmit} type="button" class="text-white  bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-normal rounded-lg text-sm px-3 py-[7px] text-center me-2 mb-2">Submit</button>  
+      </div>
+      <div className='mx-2 md:mx-4 pt-7'>
+        <button onClick={downloadCSV} type="button" class="text-white  bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-normal rounded-lg text-sm px-3 py-[7px] text-center me-2 mb-2">Download CSV</button>  
       </div>
 
     </div>

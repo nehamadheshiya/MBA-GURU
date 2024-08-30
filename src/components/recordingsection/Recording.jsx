@@ -1,5 +1,4 @@
 import React from 'react'
-import MaterialHook from './MaterialHook';
 import { Dropdown } from 'react-bootstrap'; 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -8,13 +7,16 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import { tableCustomStyles } from "../../components/TableStyle";
 import { PencilIcon,TrashIcon } from '@heroicons/react/24/solid';
+import Recordings from '@/pages/dashboard/recordings';
+import RecordingHook from './RecordingHook';
 
-const Materiall = () => {
+const Recording = () => {
   const columns = [
     {
-      name: 'MATERIAL ID',
-      selector: row => row.matrial_id,
+      name: 'RECORDING ID',
+      selector: row => row.recording_id ,
       width: "120px",
+    
     },
     {
       name: 'SECTION NAME',
@@ -32,30 +34,37 @@ const Materiall = () => {
       width: "240px",
     },
     {
-      name: 'BATCH CODE',
-      selector: row => row.batch_code,
-      width: "240px",
-      style: {
-        whiteSpace: 'normal',
-        wordWrap: 'break-word',
-        overflowWrap: 'break-word',
-      },
-      cell: row => <div style={{ whiteSpace: 'normal', wordWrap: 'break-word', overflowWrap: 'break-word' }}>{row.batch_code}</div>
+      name: 'IMAGE',
+      selector: row => row.thumbnail_image,
+      cell: row => (
+        <img
+          src={row.thumbnail_image} // Set the URL here
+          alt="img"
+          style={{ width: '50px', height: '40px' }} // Adjust size as needed
+        />
+      ),
+      width: "100px",
     },
+    {
+      name: 'RECORDING URL',
+      selector: row => row.recording_url,
+      width: "400px",
+    },
+    
     {
       name: 'ACTIONS',
       width: "200px",
       selector: (row) => (
         <div>
           <button
-             onClick={() => handleEdit(row.matrial_id,row.section_name,row.module,row.topics,row.batch_code)} 
+             onClick={() => handleEdit(row.recording_id,row.section_name,row.module,row.topics,row.thumbnail_image,row.recording_url)} 
             className="inline-flex items-center space-x-1 px-2 py-1.5 bg-blue-400 hover:bg-blue-600 text-white rounded"
           >
             <span>Edit</span>
             <PencilIcon className="h-3 w-3" />
           </button>
           <button
-           onClick={() => handleDelete(row.matrial_id)}
+           onClick={() => handleDelete(row.recording_id)}
             className="inline-flex mx-2 items-center space-x-1 px-2 py-1.5 bg-red-500 hover:bg-red-600 text-white rounded">
             <span>Delete</span>
             <TrashIcon className="h-3 w-3" />
@@ -75,9 +84,15 @@ const Materiall = () => {
     handleSection,handleSubmit,data,handleCloseEdit,handleClickEdit,isFormEdit,handleEdit,topics,handleTopics,selectedTopic, handleDelete,
     handleCloseDelete,handleDeleteButton,
     isFormDelete,
+    recording_url,
     setSelectedSubject,
-  }=MaterialHook();
-    console.log(setSelectedSubject,"sccccccccccccc");
+    handleChange,
+    thumbnailImage,
+    handleChangeImage,
+    handleImageChange,
+    
+  }=RecordingHook();
+    
     
   return (
     <div className=''>
@@ -153,57 +168,37 @@ const Materiall = () => {
       </div>
 
       </div>
-       <div className='md:flex mt-6'>
-          <div className='mx-4 md:mx-4'>
-          <label htmlFor="pdf" className="block mb-2 text-sm font-sm text-gray-900 dark:text-white">
-            Select PDF URL
-          </label>
-              <Dropdown>
-                <Dropdown.Toggle  className='bg-white border border-gray-300 text-black text-sm' variant="success" id="dropdown-basic">
-                  Select PDF URL
-                </Dropdown.Toggle>
-                <Dropdown.Menu className='text-sm'>
-                  {pdf.map((option, index) => (
-                    <Dropdown.Item
-                      key={index}
-                      onClick={() => toggleLang(option)}
-                      active={selectedUrl.includes(option.file_url)}
-                    >
-                      {option.file_url}
-                    </Dropdown.Item>
-                  ))}
-                </Dropdown.Menu>
-              </Dropdown>
-            
-          </div>
-          <div className='mx-4 md:mx-4'>
-          <label htmlFor="batchcode" className="block mb-2 text-sm font-sm text-gray-900 dark:text-white">
-            Select Batch
-          </label>
-          <Dropdown>
-            <Dropdown.Toggle className="bg-white border border-gray-300 text-black text-sm" variant="success" id="dropdown-basic">
-              Select Batch Code
-            </Dropdown.Toggle>
-            <Dropdown.Menu className="text-sm">
-              {batchYears.batch_code
-                .filter(batchItem => batchItem !== null)
-                .map((batchItem, index) => (
-                  <Dropdown.Item
-                    key={index}
-                    onClick={() => toggleBatchCode(batchItem)}
-                    active={selectedBatchCodes.includes(batchItem)}
-                  >
-                    {batchItem}
-                  </Dropdown.Item>
-                ))}
-            </Dropdown.Menu>
-          </Dropdown>
-        </div>
-          <div className='mx-4 md:mx-4 mt-[3%]'>
+       <div className=' mt-3'>
+       <div className='mx-4 md:mx-4'>
+        <Form.Group className="w-[350px] md:w-[500px]" controlId="exampleForm.ControlInput1">
+              <Form.Label className='text-sm'>Video URL</Form.Label>
+              <Form.Control
+                value={recording_url} 
+                name="recording_url"
+                onChange={handleChange}
+                type="text"
+                autoFocus
+              />
+
+        </Form.Group>
+       </div>
+      </div>  
+      <div className='mt-6 flex'>
+      <div className='mx-4 md:mx-4'>
+        <input
+          id="fileInput"
+         type="file"
+         name="thumbnail_image"
+         onChange={handleChangeImage}
+         />
+       </div>
+      
+          <div className='mx-1 md:mx-2 '>
               <button onClick={handleSubmit} type="button" class="text-white  bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-normal rounded-lg text-sm px-3 py-[7px] text-center me-2 mb-2">Submit</button>  
           </div>
-      </div>  
-        <div className='mt-[4%]'>
+      </div>
+
+         <div className='mt-[4%]'>
         <DataTable
         customStyles={tableCustomStyles}
         columns={columns}
@@ -212,9 +207,11 @@ const Materiall = () => {
       />
         <ToastContainer />
         </div>
+
+
         <Modal className='h-auto' show={isFormEdit} onHide={handleCloseEdit}>
         <Modal.Header closeButton className="d-flex justify-content-center">
-          <Modal.Title className='text-red-900'>Edit Material</Modal.Title>
+          <Modal.Title className='text-red-900'>Edit Recording</Modal.Title>
         </Modal.Header>
         <Modal.Body>
        <form className="max-w-sm mx-auto">
@@ -229,10 +226,13 @@ const Materiall = () => {
       >
         <option value="">Select Section</option>
         {sections.map((section, index) => (
-          <option key={index} value={section.section_name}>
-            {section.section_name}
-          </option>
+          section.section_name ? (
+            <option key={index} value={section.section_name}>
+              {section.section_name}
+            </option>
+          ) : null 
         ))}
+
       </select>
     </form>
     <form className="max-w-sm mx-auto ">
@@ -276,29 +276,33 @@ const Materiall = () => {
         ))}
       </select>
     </form>
-    <form className="max-w-sm my-2 mx-auto">
-      <label htmlFor="batchcode" className="block mb-2 text-sm font-sm text-gray-900 dark:text-white">
-        Select Batch
-      </label>
-      <Dropdown>
-        <Dropdown.Toggle className="bg-white border border-gray-300 text-black text-sm" variant="success" id="dropdown-basic">
-          Select Batch Code
-        </Dropdown.Toggle>
-        <Dropdown.Menu className="text-sm">
-          {batchYears.batch_code
-            .filter(batchItem => batchItem !== null)
-            .map((batchItem, index) => (
-              <Dropdown.Item
-                key={index}
-                onClick={() => toggleBatchCode(batchItem)}
-                active={selectedBatchCodes.includes(batchItem)}
-              >
-                {batchItem}
-              </Dropdown.Item>
-            ))}
-        </Dropdown.Menu>
-      </Dropdown>
-    </form>
+    <form className="max-w-sm mx-auto mb-4 mt-2">
+          <label htmlFor="thumbnailImage" className="block mb-2 text-sm text-gray-900 dark:text-white">
+             Thumbnail Image
+          </label>
+          <input
+           name="thumbnail_image"
+            type="file"
+            id="thumbnailImage"
+            onChange={handleImageChange}
+            className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          />
+        </form>
+        <form className="max-w-sm mx-auto mb-4">
+          <label htmlFor="recordingURL" className="block mb-2 text-sm text-gray-900 dark:text-white">
+            Recording URL
+          </label>
+          <input
+            type="text"
+            id="recordingURL"
+            value={recording_url} 
+            name="recording_url"
+            onChange={handleChange}
+            autoFocus
+            placeholder="Enter recording URL"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          />
+        </form>
   </Modal.Body>
   <Modal.Footer>
     <button onClick={handleCloseEdit} type="button" className="text-white bg-gradient-to-r from-red-500 via-red-600 to-red-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-700 font-medium rounded-lg text-sm px-3 py-2 text-center me-2 mb-2">
@@ -328,4 +332,4 @@ const Materiall = () => {
   )
 }
 
-export default Materiall;
+export default Recording;

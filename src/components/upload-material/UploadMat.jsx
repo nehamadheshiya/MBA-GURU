@@ -112,7 +112,9 @@ const UploadMat = () => {
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full md:w-[200px] p-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               >
                 <option value="">Select Section</option>
-                {sections.map((section, index) => (
+                {sections
+                .filter((item)=>item.section_name)
+                .map((section, index) => (
                   <option key={index} value={section.section_name}>
                     {section.section_name}
                   </option>
@@ -151,7 +153,9 @@ const UploadMat = () => {
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full md:w-[200px] p-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               >
                 <option value="">Select Section</option>
-                {sections.map((section, index) => (
+                {sections
+                .filter((section) => section.section_name)
+                .map((section, index) => (
                   <option key={index} value={section.section_name}>
                     {section.section_name}
                   </option>

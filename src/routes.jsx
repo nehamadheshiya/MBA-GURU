@@ -13,16 +13,19 @@ import {
   ServerStackIcon,
   RectangleStackIcon,
  BookmarkIcon,
+ MicrophoneIcon,
  PlusIcon,
  EyeIcon,
+ VideoCameraIcon,
  UserGroupIcon,
  ArrowUpTrayIcon,
+ CloudArrowUpIcon,CheckCircleIcon,
+
 } from "@heroicons/react/24/solid";
 import { Home, Profile, Tables, Notifications ,Appuserdetails} from "@/pages/dashboard";
 import { SignIn, SignUp } from "@/pages/auth";
 import Material from "./pages/dashboard/material";
 import Initialswot from "./pages/dashboard/initialswot";
-import Backup from "./pages/dashboard/backup";
 import Calendar from "./pages/dashboard/calendar";
 import Section1 from "./pages/dashboard/section1";
 import RegistrationCls from "./components/registration-classes/RegistrationCls";
@@ -31,6 +34,13 @@ import ViewStudent from "./pages/dashboard/ViewStudent";
 import UploadMat from "./components/upload-material/UploadMat";
 import Uploadmaterial from "./pages/dashboard/uploadmaterial";
 import Addsection from "./pages/dashboard/addsection";
+import Backupclass from "./pages/dashboard/backupclass";
+import Viewback from "./pages/dashboard/viewback";
+import Backupstudent from "./pages/dashboard/backupstudent";
+import Presntstudent from "./pages/dashboard/presntstudent";
+import Recording from "./components/recordingsection/Recording";
+import Recordings from "./pages/dashboard/recordings";
+
 const icon = {
   className: "w-5 h-5 text-inherit",
 };
@@ -100,25 +110,37 @@ export const routes = [
         path: "/material",
         element: <Material />,
       },
-     
       {
-        icon: <FolderIcon {...icon} />,
-        name: "backup",
-        path: "/backup",
-        element: <Backup />,
+        icon: <CloudArrowUpIcon {...icon} />,
+        name: "upload backup ",
+        path: "/uploadbackup",
+        element: <Backupclass />,
       },
-      // {
-      //   icon: <InformationCircleIcon {...icon} />,
-      //   name: "notification",
-      //   path: "/notification",
-      //   element: <Notifications />,
-      // },
-      // {
-      //   icon: <TableCellsIcon {...icon} />,
-      //   name: "tables",
-      //   path: "/tables",
-      //   element: <Tables />,
-      // },  
+      {
+        icon: <EyeIcon {...icon} />,
+        name: "view backup ",
+        path: "/viewbackup",
+        element: <Viewback />,
+      },
+      {
+        icon: <UserIcon {...icon} />,
+        name: "backup student ",
+        path: "/backupstudent",
+        element: <Backupstudent />,
+      },
+      {
+        icon: <CheckCircleIcon {...icon} />,
+        name: "student  P/A",
+        path: "/presentstudent",
+        element: <Presntstudent />,
+      },
+      {
+        icon: <VideoCameraIcon {...icon} />,
+        name: "recordings ",
+        path: "/recordings",
+        element: <Recordings />,
+      },
+      
     ],
   },
   {

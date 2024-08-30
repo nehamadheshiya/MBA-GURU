@@ -12,6 +12,7 @@ const RegistrationHook = () => {
     const [centers, setCenters] = useState([]);
     const [batches, setBatches] = useState([]); 
     const [subjects, setSubjects] = useState([]);
+    const [selectedIds, setSelectedIds] = useState([]);
     const staticModules = ["Regular", "Advance", "Adaptive"];
     const [formValue,setFormValue]=useState({
         registration_id:"",
@@ -30,33 +31,45 @@ const RegistrationHook = () => {
         subject: '',
       })
 
-const fetchData= async ()=>{
-    try{
-        const response=await fetch(`${BASE_URL}show-registration-based-class`);
-        if(!response.ok){
-        throw new Error('Network response was not ok');
+    const fetchData= async ()=>{
+        try{
+            const response=await fetch(`${BASE_URL}show-registration-based-class`);
+            if(!response.ok){
+            throw new Error('Network response was not ok');
+            }
+            const jsonData=await response.json();
+            // console.log(jsonData.data)
+            setData(jsonData.data);
+        }catch(error){
+            console.log("error is", error)
         }
-        const jsonData=await response.json();
-        // console.log(jsonData.data)
-        setData(jsonData.data);
-    }catch(error){
-        console.log("error is", error)
-    }
-    } ;
-useEffect(()=>{
-fetchData();
-},[])
+        } ;
+    useEffect(()=>{
+    fetchData();
+    },[])
 
-const handleCloseEdit = () => setIsFormEdit(false);
+    const handleCloseEdit = () => setIsFormEdit(false);
 
 
-const handleChange = (e) => {
-  const { name, value } = e.target;
-  setFormValue((prevFormValue) => ({
-    ...prevFormValue,
-    [name]: value,
-  }));
-};
+    const handleChange = (e) => {
+      const { name, value } = e.target;
+      setFormValue((prevFormValue) => ({
+        ...prevFormValue,
+        [name]: value,
+      }));
+    };
+
+  const handleChangeBatches = (event) => {
+    const { name, options } = event.target;
+    const selectedValues = Array.from(options)
+                                .filter(option => option.selected)
+                                .map(option => option.value);
+    
+    setFormValue(prevState => ({
+      ...prevState,
+      [name]: selectedValues,
+    }));
+  };
 
 
 const handleEdit=(registration_id,center,faculty_name,skills,topics,max_students,batches,details,date,start_time,end_time,type,subject)=>{
@@ -78,7 +91,7 @@ const handleEdit=(registration_id,center,faculty_name,skills,topics,max_students
   })
 }
  const handleClickEdit = async () => {
-    const valueData=new FormData();
+      const valueData=new FormData();
       valueData.append("registration_id", formValue.registration_id);
       valueData.append("center", formValue.center);
       valueData.append("faculty_name",formValue.faculty_name);
@@ -93,13 +106,11 @@ const handleEdit=(registration_id,center,faculty_name,skills,topics,max_students
       valueData.append("type",formValue.module);
       valueData.append("subject",formValue.subject);
       console.log(valueData,'valueee')
-  
     try {
       const response = await fetch(`${BASE_URL}edit-registration-based-class`, {
         method: "POST",
         body: valueData,
       });
-  
       const result = await response.json();
       if (response.ok) {
         setData(prevData => prevData.map(item => 
@@ -185,12 +196,10 @@ const handleEdit=(registration_id,center,faculty_name,skills,topics,max_students
     });
     fetchData();
       toast.success(data.message);
-  
   }
   catch (error) {
     console.error("Error", error);
   } 
-
   }
   const handleClose = () => setIsFormVisible(false);
 
@@ -244,7 +253,6 @@ const handleEdit=(registration_id,center,faculty_name,skills,topics,max_students
       console.error("Error", error);
     }
   }
-
   const fetchCenter = async () => {
     try {
       const response = await fetch(`${BASE_URL}show-center`);
@@ -304,7 +312,7 @@ const handleEdit=(registration_id,center,faculty_name,skills,topics,max_students
   
             const data = await response.json();
             setSubjects(data.subject);
-            setFormValue(prevFormValue => ({ ...prevFormValue, subject: '' })); // Reset subject to empty string
+            setFormValue(prevFormValue => ({ ...prevFormValue, subject: '' })); 
           } catch (error) {
             console.error('Error fetching subjects:', error);
             setSubjects([]);
@@ -314,8 +322,6 @@ const handleEdit=(registration_id,center,faculty_name,skills,topics,max_students
   
       fetchSubjects();
     }, [formValue.module]);
-
-  
 
   return{
     fetchData,
@@ -338,7 +344,7 @@ const handleEdit=(registration_id,center,faculty_name,skills,topics,max_students
     batches,
     subjects,
     staticModules,
-
+    handleChangeBatches,
   }
 }
 

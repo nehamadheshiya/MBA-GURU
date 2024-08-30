@@ -112,9 +112,9 @@ const handleChange = (e) => {
     fetchData();
     toast.success(data.message);
   }
-  catch (error) {
-    console.error("Error", error);
-  } 
+    catch (error) {
+      console.error("Error", error);
+    } 
   }
 
   const handleClick=async()=>{

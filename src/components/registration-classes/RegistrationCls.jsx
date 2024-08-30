@@ -38,11 +38,11 @@ const RegistrationCls = () => {
           selector: row => row.faculty_name,
           width:"150px"
         },
-        {
-          name: 'SKILLS',
-          selector: row => row.skills,
-          width:"150px"
-        },
+        // {
+        //   name: 'SKILLS',
+        //   selector: row => row.skills,
+        //   width:"150px"
+        // },
         {
           name: 'TOPICS',
           selector: row => row.topics,
@@ -71,7 +71,7 @@ const RegistrationCls = () => {
             width:"150px"
           },
           {
-            name: 'SUBJECTS',
+            name: 'SKILLS',
             selector: row => row.subject,
             width:"200px"
           },
@@ -116,8 +116,11 @@ const RegistrationCls = () => {
       navigate(`/viewstudent/${registration_id}`, { replace: true });
     }
 
+   
+    
+
     const{fetchData,data,handleEdit,formClose,handleClick,handleClose,isFormVisible,handleAddButton,handleDelete,handleDeleteButton,handleCloseDelete,isFormEdit,handleCloseEdit,formValue,handleChange,handleClickEdit,isFormDelete,centers,batches,modules,
-      subjects,staticModules,}=RegistrationHook();
+      subjects,staticModules,handleChangeBatches}=RegistrationHook();
       
   return (
     <div>
@@ -343,8 +346,9 @@ const RegistrationCls = () => {
           <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
           <Form.Label>Batches</Form.Label>
           <select
+          multiple
             value={formValue.batches}
-            onChange={handleChange}
+            onChange={handleChangeBatches}
             name="batches"
             id="batches"
             className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full md:w-[100%] py-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -463,8 +467,8 @@ const RegistrationCls = () => {
                 value={formValue.start_time}
                 name="start_time"
                 onChange={handleChange}
-                type="text"
-                placeholder='24-hour format'
+                type="time"
+                // placeholder='24-hour format'
                 autoFocus
               />
             </Form.Group>
@@ -474,8 +478,8 @@ const RegistrationCls = () => {
                 value={formValue.end_time}
                 name="end_time"
                 onChange={handleChange}
-                type="text"
-                placeholder='24-hour format'
+                type="time"
+                // placeholder='24-hour format'
                 autoFocus
               />
             </Form.Group>

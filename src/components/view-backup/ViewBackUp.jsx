@@ -1,18 +1,18 @@
 import React from 'react'
 import DataTable from 'react-data-table-component';
 import { tableCustomStyles } from "../../components/TableStyle";
-import ViewEditHook from './ViewEditHook';
 import { PencilIcon,TrashIcon } from '@heroicons/react/24/solid';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-import {Input, } from "@material-tailwind/react";
 import { ToastContainer } from 'react-toastify';
-const ViewEdit = () => {
+import ViewBackUpHook from './ViewBackUpHook';
+
+const ViewBackUp = () => {
   const columns = [
     {
       name: 'ID',
       selector: row => row.schedule_id,
-      width: "80px",
+      width: "50px",
     },
     {
       name: 'CLASS TYPE',
@@ -51,12 +51,12 @@ const ViewEdit = () => {
     {
       name: 'SKILL',
       selector: row => row.skill,
-      width: "220px",
+      width: "250px",
     },
     {
       name: 'TOPIC',
       selector: row => row.topic,
-      width: "350px",
+      width: "140px",
     },
     {
       name: 'FACULTY',
@@ -64,21 +64,16 @@ const ViewEdit = () => {
       width: "120px",
     },
     {
-      name: 'ZOOM ID',
-      selector: row => row.zoom_id,
-      width: "250px",
-    },
+    name: 'SLOTS',
+    selector: row => row.no_of_backup_slots,
+    width: "120px",
+    },  
     {
-      name: 'ZOOM CLASS LINK',
-      selector: row => row.meeting_id,
-      width: "550px",
-    },
-    {
-      name: 'Actions',
+      name: 'ACTIONS',
       width:"200px",
       selector: (row) => (
         <div>
-          <button onClick={() => handleEdit(row.schedule_id,row.class_type,row.start_time,row.end_time,row.center,row.date,row.day,row.batch_code,row.skill,row.topic,row.faculty,row.zoom_id,row.meeting_id,)} className="inline-flex  items-center space-x-1 px-2 py-1.5 bg-blue-500 hover:bg-blue-600 text-white rounded">
+          <button onClick={() => handleEdit(row.schedule_id,row.class_type,row.start_time,row.end_time,row.center,row.date,row.day,row.batch_code,row.skill,row.topic,row.faculty,row.no_of_backup_slots)} className="inline-flex  items-center space-x-1 px-2 py-1.5 bg-blue-500 hover:bg-blue-600 text-white rounded">
               <span>Edit</span>
               <PencilIcon className="h-2.5 w-3 " />
          </button>
@@ -107,9 +102,8 @@ const ViewEdit = () => {
     handleCloseDelete,
     isFormDelete,
     handleDeleteButton,
-    handleFilter,
-    records,
-  }=ViewEditHook();
+
+  }=ViewBackUpHook();
 
   // console.log(data,"dattata")
   return (
@@ -169,16 +163,13 @@ const ViewEdit = () => {
           </button>
         </div>
       </div>
-         <div className="mr-auto my-3 md:my-6 md:mr-4 w-36 md:w-56">
-            <Input label="Search" placeholder='Search' onChange={handleFilter} />
-        </div>
       </div>
 
       <div className='mt-[4%]'>
       <DataTable
         customStyles={tableCustomStyles}
         columns={columns}
-        data={records}
+        data={data}
         pagination
       />
    <ToastContainer />
@@ -300,20 +291,10 @@ const ViewEdit = () => {
               />
             </Form.Group>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label>Zoom ID</Form.Label>
+              <Form.Label>No Of Slots</Form.Label>
               <Form.Control
-                value={formValue.zoom_id}
-                name="Zoom ID"
-                onChange={handleChange}
-                type="text"
-                autoFocus
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label>Meeting ID</Form.Label>
-              <Form.Control
-                value={formValue.meeting_id}
-                name="meeting_id"
+                value={formValue.no_of_backup_slots}
+                name="no_of_backup_slots"
                 onChange={handleChange}
                 type="text"
                 autoFocus
@@ -354,4 +335,4 @@ const ViewEdit = () => {
   )
 }
 
-export default ViewEdit
+export default ViewBackUp;

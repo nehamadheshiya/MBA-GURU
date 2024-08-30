@@ -70,13 +70,16 @@ const AppUserDetailHook = () => {
     setRecords(data);
   }, [data]);
 
-  const handleFilter=(event)=>{
-    const newData=data.filter(row=>{
-        return row.name.toLowerCase().startsWith(event.target.value.toLowerCase())
-    })
-    // we can use 'includes' also instead of startsWith
-    setRecords(newData)
+  const handleFilter = (event) => {
+    const searchTerm = event.target.value.toLowerCase();
+    
+    const newData = data.filter(row => {
+      return row.name.toLowerCase().startsWith(searchTerm) || 
+             row.email.toLowerCase().startsWith(searchTerm);
+    });
+    setRecords(newData);
   }
+  
  
   const handleChange=(e)=>{
     const { name, value } = e.target;
@@ -119,14 +122,15 @@ const AppUserDetailHook = () => {
     }
   }
 
-  const handleEdit=(id,name,email,password,mobile,batch_code,admission_date,dateofbirth,address,centercode,catyear,college)=>{
+  const handleEdit=(id,name,email,password,batch_code,admission_date,dateofbirth,address,centercode,catyear,college)=>{
     setIsFormEdit(true)
+    console.log('admission_date:', admission_date);
     setFormValue({
       id: id,
       name: name,
       email: email,
       password:password,
-      mobile:mobile,
+      // mobile:mobile,
       batch_code:batch_code,
       admission_date:admission_date,
       dateofbirth:dateofbirth,
@@ -138,19 +142,22 @@ const AppUserDetailHook = () => {
   }
 
   const handleClickEdit=async(e)=>{
+    console.log('admission_date before sending:', formValue.admission_date);
     const valueData=new FormData();
+      valueData.append("userid",formValue.id);
       valueData.append("name", formValue.name);
       valueData.append("email", formValue.email);
-      valueData.append("userid",formValue.id);
-      valueData.append("mobile",formValue.mobile);
+      valueData.append("password",formValue.password);
+      // valueData.append("mobile",formValue.mobile);
       valueData.append("batch_code",formValue.batch_code);
-      valueData.append("admission_date",formValue.admission_date);
+      valueData.append("admissiondate", formValue.admission_date );
       valueData.append("dateofbirth",formValue.dateofbirth);
       valueData.append("address",formValue.address);
       valueData.append("centercode",formValue.centercode);
       valueData.append("catyear",formValue.catyear);
       valueData.append("college",formValue.college);
-      console.log(valueData,'valueee')
+      console.log(formValue.admission_date,"admssdate");
+      console.log('FormData being sent:', [...valueData.entries()]);
     try{
       const response=await fetch("https://inmortaltechnologies.com/mbaguruApp/api/admin/edit-user",
       {
